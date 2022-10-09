@@ -1,10 +1,25 @@
 import React from 'react';
-import './App.css';
 import RoutingProvider from "./providers/RoutingProvider";
+import {Box} from "grommet";
+import ExamNavbar from "./components/ExamNavbar/ExamNavbar";
+import {useLocation} from "react-router-dom";
 
 function App() {
+  const { pathname } = useLocation();
+
   return (
-    <RoutingProvider/>
+    <Box
+      height={"100vh"}
+      width={"100vw"}
+      style={{
+        minHeight: "undefined",
+      }}
+    >
+      { pathname !== '/login' && (
+        <ExamNavbar/>
+      )}
+      <RoutingProvider/>
+    </Box>
   );
 }
 

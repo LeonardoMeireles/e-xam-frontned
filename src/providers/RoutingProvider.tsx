@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import Home from "../pages/home/Home";
+import Login from "../pages/Login/Login";
+import Home from "../pages/Home/Home";
 
 const RoutingProvider = (): JSX.Element => {
   const { pathname } = useLocation();
@@ -13,6 +14,7 @@ const RoutingProvider = (): JSX.Element => {
   return (
     <Routes>
       <Route path='/' element={<Home />} />
+      <Route path='/login' element={<Login />} />
     </Routes>
   );
 };
