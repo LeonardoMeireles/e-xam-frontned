@@ -1,20 +1,22 @@
+import './index.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-import './index.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import {Grommet} from "grommet";
+import {BrowserRouter} from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import theme from "./theme";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Grommet theme={theme}>
+      <BrowserRouter>
+        <App/>
+      </BrowserRouter>
+    </Grommet>
   </React.StrictMode>
 );
 
