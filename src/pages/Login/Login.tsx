@@ -105,7 +105,7 @@ export function Login(): JSX.Element {
             height={"2rem"}
             justify={"center"}
           >
-            <Text textAlign={"center"} color={"#FFF"}>Sign-in</Text>
+            <Text textAlign={"center"} color={"white"}>Sign-in</Text>
           </Box>
           <Text
             margin={"0.75rem 0 0 0"}

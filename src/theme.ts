@@ -4,7 +4,7 @@ const theme = {
       black: "#121212",
       darkBlue: "#0C1126",
       base: "#05103A",
-      accent: "#0FC0E7",
+      accent: "#0ca7c9",
       white: "#FFFFFF"
     },
     focus: {
