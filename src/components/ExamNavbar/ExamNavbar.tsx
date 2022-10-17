@@ -1,7 +1,10 @@
-import {Box, Image} from "grommet";
+import {Box, Image, Text} from "grommet";
 import logoTransparent from "../../assets/logo/logoTransparent.png";
+import {useNavigate} from "react-router-dom";
 
 export function ExamNavbar(): JSX.Element {
+
+  const navigate = useNavigate()
 
   return (
     <Box
@@ -9,15 +12,39 @@ export function ExamNavbar(): JSX.Element {
       direction='row'
       align='center'
       justify='between'
-      background='darkBlue'
+      background='base'
       pad={"1rem 2rem"}
       height={"4rem"}
       elevation='large'
     >
-      <Image
-        src={logoTransparent}
-        height={"32px"}
-      />
+      <Box>
+        <Image
+          src={logoTransparent}
+          height={"32px"}
+          onClick={() => navigate("") }
+          style={{
+            cursor: "pointer"
+          }}
+        />
+      </Box>
+      <Box>
+        <Box
+          height={"2rem"}
+          pad={"0.5rem"}
+          justify={"center"}
+          background={"accent"}
+          onClick={() => navigate("/login")}
+          style={{
+            borderRadius: "7px"
+          }}
+        >
+          <Text
+            color={"white"}
+          >
+            Login
+          </Text>
+        </Box>
+      </Box>
     </Box>
   );
 };
