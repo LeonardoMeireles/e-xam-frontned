@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Login from "../pages/Login/Login";
 import Home from "../pages/Home/Home";
+import {Exams} from "../pages/Exams/Exams";
 
 const RoutingProvider = (): JSX.Element => {
   const { pathname } = useLocation();
@@ -15,6 +16,7 @@ const RoutingProvider = (): JSX.Element => {
     <Routes>
       <Route path='/' element={<Home />} />
       <Route path='/login' element={<Login />} />
+      <Route path='/:classId/exams' element={<Exams />}/>
     </Routes>
   );
 };

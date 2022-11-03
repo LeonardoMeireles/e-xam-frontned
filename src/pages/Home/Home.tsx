@@ -5,40 +5,40 @@ export function Home(): JSX.Element {
 
   const dummyClassData = [
     {
-      classId: "123",
-      className: "Test",
+      id: "123",
+      name: "Test",
       professorName: "Prof. Tilambo Ucano",
-      classDescription: "Some description"
+      description: "Some description"
     },
     {
-      classId: "123",
-      className: "Test",
+      id: "124",
+      name: "Test",
       professorName: "Prof. Tilambo Ucano",
-      classDescription: "Some description"
+      description: "Some description"
     },
     {
-      classId: "123",
-      className: "Test",
+      id: "125",
+      name: "Test",
       professorName: "Prof. Tilambo Ucano",
-      classDescription: "Some description"
+      description: "Some description"
     },
     {
-      classId: "123",
-      className: "Test",
+      id: "126",
+      name: "Test",
       professorName: "Prof. Tilambo Ucano",
-      classDescription: "Some description"
+      description: "Some description"
     },
     {
-      classId: "123",
-      className: "Test",
+      id: "127",
+      name: "Test",
       professorName: "Prof. Tilambo Ucano",
-      classDescription: "Some description"
+      description: "Some description"
     },
     {
-      classId: "123",
-      className: "Test",
+      id: "128",
+      name: "Test",
       professorName: "Prof. Tilambo Ucano",
-      classDescription: "Some description"
+      description: "Some description"
     },
   ]
 
@@ -55,13 +55,14 @@ export function Home(): JSX.Element {
         direction={"row"}
         wrap={true}
       >
-        {dummyClassData.map(() => {
+        {dummyClassData.map((classroom) => {
           return (
             <ClassCard
-              classId={"123"}
-              className={"Test"}
-              professorName={"Prof. Tilambo Ucano"}
-              classDescription={"Some description"}
+              key={classroom.id}
+              id={classroom.id}
+              name={classroom.name}
+              professorName={classroom.name}
+              description={classroom.description}
             />
           )
         })}
