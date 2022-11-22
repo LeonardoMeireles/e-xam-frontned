@@ -1,7 +1,7 @@
 import {Box} from "grommet";
 import ActivityCard from "../../components/ActivityCard";
 
-export function Exams(): JSX.Element {
+export function Activities(): JSX.Element {
 
   return (
     <Box
@@ -12,9 +12,9 @@ export function Exams(): JSX.Element {
       pad={"2rem"}
       overflow={"auto"}
     >
-      <ActivityCard type={"exams"}/>
+      <ActivityCard type={'activities'}/>
     </Box>
   );
 };
 
-export default Exams;
+export default Activities;
