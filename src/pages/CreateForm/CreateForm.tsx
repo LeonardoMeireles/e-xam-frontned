@@ -1,13 +1,24 @@
 import {Box} from "grommet";
 import CreateQuestion from "./components/CreateQuestion";
+import CreateActivity from "./components/CreateActivity";
 
 interface CreateFormProps {
   type: 'question' | 'activity' | 'exam'
 }
 
+interface Forms {
+  "question": JSX.Element,
+  "activity": JSX.Element
+}
+
 export function CreateForm(
   {type}: CreateFormProps
 ): JSX.Element {
+
+  const forms: Forms = {
+    "question": <CreateQuestion/>,
+    "activity": <CreateActivity type={'activity'}/>
+  }
 
   return (
     <Box
@@ -35,7 +46,7 @@ export function CreateForm(
           background={'#FFF'}
           height={'100%'}
         >
-          <CreateQuestion />
+          {forms[type as keyof Forms]}
         </Box>
       </Box>
     </Box>

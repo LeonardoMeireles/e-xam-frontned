@@ -19,7 +19,7 @@ export function Question(
     <>
       <Text weight={700} size={display === 'question' ? '2rem' : '1.25rem'}>Question Title</Text>
       <Text>Question description: </Text>
-      {false
+      {display === 'question' && questionType !== 'essay'
         ? <Box margin={'0.5rem 0 0 0'} justify={"center"} gap={'1rem'}>
           {options.map((option, index) => {
             return (
@@ -44,6 +44,7 @@ export function Question(
           />
         </FormField>
       }
+      <Box></Box>
     </>
   );
 };
