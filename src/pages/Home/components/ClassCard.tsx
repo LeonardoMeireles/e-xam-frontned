@@ -24,7 +24,7 @@ export function ClassCard(
       width={"200px"}
       height={"220px"}
       margin={"1rem 1rem 0 0"}
-      onClick={() => navigate(`/${id}/exams`)}
+      onClick={() => navigate(`/${id}/exam`)}
     >
       <CardHeader
         background={"#2E7397"}

@@ -48,7 +48,7 @@ export function ExamNavbar(): JSX.Element {
       {classId && (
         <Box direction={"row"} gap={"4rem"}>
           <NavLink
-            to={`/${classId}/exams`}
+            to={`/${classId}/exam`}
             style={({ isActive }) =>
               isActive ? selectedStyle : unselectedStyle
             }
@@ -56,7 +56,7 @@ export function ExamNavbar(): JSX.Element {
             Exams
           </NavLink>
           <NavLink
-            to={`/${classId}/activities`}
+            to={`/${classId}/activity`}
             style={({ isActive }) =>
               isActive ? selectedStyle : unselectedStyle
             }
@@ -64,7 +64,7 @@ export function ExamNavbar(): JSX.Element {
             Activities
           </NavLink>
           <NavLink
-            to={`/${classId}/questions`}
+            to={`/${classId}/question`}
             style={({ isActive }) =>
               isActive ? selectedStyle : unselectedStyle
             }

@@ -4,6 +4,7 @@ const theme = {
       black: "#121212",
       darkBlue: "#0C1126",
       base: "#05103A",
+      highlight: '#34417c',
       accent: "#0ca7c9",
       white: "#FFFFFF"
     },
@@ -18,6 +19,15 @@ const theme = {
       height: '20px',
     },
   },
+  radioButton: {
+    color: '#0030ff',
+    border: {
+      color: '#0C1126'
+    },
+    check: {
+      color: '#0ca7c9'
+    }
+  }
 };
 
 export default theme;

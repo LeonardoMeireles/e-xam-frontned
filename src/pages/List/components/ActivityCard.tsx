@@ -1,8 +1,8 @@
 import {Box, Text} from "grommet";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {MoreVertical} from "grommet-icons";
 
-type ActivityType = 'questions' | 'activities' | 'exams'
+export type ActivityType = 'question' | 'activity' | 'exam'
 
 interface ActivityCardProps {
   type: ActivityType
@@ -12,19 +12,20 @@ export function ActivityCard(
   {type}: ActivityCardProps
 ): JSX.Element {
   const {classId} = useParams();
+  const navigate = useNavigate();
+  const questionId = '123'
 
   return (
     <Box
       height={"100%"}
       width={"40%"}
-      pad={"2rem"}
     >
       <Box
         justify={"between"}
         align={"center"}
         width={'100%'}
         direction={"row"}
-        onClick={() => console.log('TEST')}
+        onClick={() => navigate(`/${classId}/${type}/${questionId}`)}
         border={{color: '#FFF', size: '1px', style: 'solid', side: 'bottom'}}
         hoverIndicator={{background: '#2E7397'}}
       >
