@@ -1,15 +1,9 @@
 import {Box, FormField, TextArea, Text, TextInput, Select, Form} from "grommet";
-import {Add} from "grommet-icons";
+import {Add, Trash} from "grommet-icons";
 import {useState} from "react";
 import Question from "../../Question/components/Question";
 
-interface CreateActivityProps {
-  type: 'activity' | 'exam'
-}
-
-export function CreateActivity(
-  {type}: CreateActivityProps
-): JSX.Element {
+export function CreateExam(): JSX.Element {
 
   const [questions, setQuestions] = useState<any[]>([undefined])
   const questionList = ['Test']
@@ -20,14 +14,14 @@ export function CreateActivity(
         width={'100%'}
         margin={{bottom: '1.5rem'}}
       >
-        <Text textAlign={"center"} weight={700} size={'1.5rem'}>New Activity</Text>
+        <Text textAlign={"center"} weight={700} size={'1.5rem'}>New Exam</Text>
       </Box>
       <FormField
         width={'100%'}
         style={{fontWeight: 500}}
         name="question"
         htmlFor="text-input-id"
-        label="Activity Title"
+        label="Exam Title"
       >
         <TextInput name="question"/>
       </FormField>
@@ -44,14 +38,18 @@ export function CreateActivity(
         {questions.map((question, index) => {
           return (
             <Box
+              key={index}
+              direction={"row"}
+              justify={"between"}
+              align={"center"}
               pad={'1.25rem'}
               round={'5px'}
               border={{color: '#282828', size: '1px'}}
             >
               {question
-                ? <Question display={"activity"}/>
+                ? <Question display={"exam-creation"}/>
                 : <Select
-                  placeholder={'Select your desired question'}
+                  placeholder={'Select a question'}
                   onChange={(event) =>
                     setQuestions((questions) => {
                       questions[index] = event.target.value
@@ -61,6 +59,19 @@ export function CreateActivity(
                   options={questionList}
                 />
               }
+              <Trash
+                height={'24px'}
+                color={'#da3636'}
+                style={{
+                  cursor: 'pointer'
+                }}
+                onClick={() => {
+                  setQuestions((questions) => {
+                    questions.splice(index, 1)
+                    return [...questions]
+                  })
+                }}
+              />
             </Box>
           )
         })}
@@ -89,11 +100,11 @@ export function CreateActivity(
         style={{cursor: 'pointer', minHeight: 'unset'}}
       >
         <Text textAlign={"center"} color={'#FFF'} weight={700}>
-          Submit {type === 'activity' ? 'Activity' : 'Exam'}
+          Submit Exam
         </Text>
       </Box>
     </Form>
   );
 };
 
-export default CreateActivity;
+export default CreateExam;

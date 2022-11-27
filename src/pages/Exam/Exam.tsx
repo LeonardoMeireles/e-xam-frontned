@@ -1,13 +1,7 @@
 import {Box, Text} from "grommet";
 import Question from "../Question/components/Question";
 
-interface ActivityProps {
-  type: 'activity' | 'exam'
-}
-
-export function Activity(
-  {type}: ActivityProps
-): JSX.Element {
+export function Exam(): JSX.Element {
 
   return (
     <Box
@@ -43,7 +37,7 @@ export function Activity(
             alignSelf={"center"}
           >
             <Text weight={700} size={'2rem'}>
-              {type === 'activity' ? 'Activity' : 'Exam'} Title
+              Title
             </Text>
           </Box>
           <Box
@@ -54,7 +48,7 @@ export function Activity(
             width={'100%'}
             alignSelf={"center"}
           >
-            <Question display={'activity'}/>
+            <Question display={'question'}/>
           </Box>
           <Box
             border={{color: '#282828', size: '1px'}}
@@ -64,7 +58,7 @@ export function Activity(
             width={'100%'}
             alignSelf={"center"}
           >
-            <Question display={'activity'}/>
+            <Question display={'question'}/>
           </Box>
           <Box
             background={'accent'}
@@ -79,7 +73,7 @@ export function Activity(
             style={{cursor: 'pointer', minHeight: 'unset'}}
           >
             <Text textAlign={"center"} color={'#FFF'} weight={700}>
-              Submit {type === 'activity' ? 'Activity' : 'Exam'}
+              Submit Exam
             </Text>
           </Box>
         </Box>
@@ -88,4 +82,4 @@ export function Activity(
   );
 };
 
-export default Activity;
+export default Exam;

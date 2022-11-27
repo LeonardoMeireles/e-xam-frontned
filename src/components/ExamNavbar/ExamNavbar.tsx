@@ -1,10 +1,12 @@
 import {Box, Image, Text} from "grommet";
 import logoTransparent from "../../assets/logo/logoTransparent.png";
 import {matchPath, NavLink, useLocation, useNavigate} from "react-router-dom";
-import {CSSProperties} from "react";
+import {CSSProperties, useContext} from "react";
+import AuthContext from "../../providers/AuthContext";
 
 export function ExamNavbar(): JSX.Element {
 
+  const {setUser} = useContext(AuthContext)
   const navigate = useNavigate()
   const {pathname} = useLocation();
   const classId = matchPath({path: '/:classId', end: false}, pathname)?.params.classId;
@@ -49,23 +51,15 @@ export function ExamNavbar(): JSX.Element {
         <Box direction={"row"} gap={"4rem"}>
           <NavLink
             to={`/${classId}/exam`}
-            style={({ isActive }) =>
+            style={({isActive}) =>
               isActive ? selectedStyle : unselectedStyle
             }
           >
             Exams
           </NavLink>
           <NavLink
-            to={`/${classId}/activity`}
-            style={({ isActive }) =>
-              isActive ? selectedStyle : unselectedStyle
-            }
-          >
-            Activities
-          </NavLink>
-          <NavLink
             to={`/${classId}/question`}
-            style={({ isActive }) =>
+            style={({isActive}) =>
               isActive ? selectedStyle : unselectedStyle
             }
           >
@@ -73,13 +67,16 @@ export function ExamNavbar(): JSX.Element {
           </NavLink>
         </Box>
       )}
-      <Box>
+      <Box gap={'0.75rem'} direction={"row"}>
         <Box
           height={"2rem"}
           pad={"0.5rem"}
           justify={"center"}
-          background={"accent"}
-          onClick={() => navigate("/login")}
+          background={"#f34f4f"}
+          onClick={() => {
+            setUser(undefined);
+            navigate("/login")
+          }}
           style={{
             borderRadius: "7px"
           }}
@@ -87,7 +84,7 @@ export function ExamNavbar(): JSX.Element {
           <Text
             color={"white"}
           >
-            Login
+            Logout
           </Text>
         </Box>
       </Box>

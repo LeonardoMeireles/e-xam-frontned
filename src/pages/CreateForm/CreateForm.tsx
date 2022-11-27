@@ -1,14 +1,14 @@
 import {Box} from "grommet";
 import CreateQuestion from "./components/CreateQuestion";
-import CreateActivity from "./components/CreateActivity";
+import CreateExam from "./components/CreateExam";
 
 interface CreateFormProps {
-  type: 'question' | 'activity' | 'exam'
+  type: 'question' | 'exam'
 }
 
 interface Forms {
   "question": JSX.Element,
-  "activity": JSX.Element
+  "exam": JSX.Element
 }
 
 export function CreateForm(
@@ -17,7 +17,7 @@ export function CreateForm(
 
   const forms: Forms = {
     "question": <CreateQuestion/>,
-    "activity": <CreateActivity type={'activity'}/>
+    "exam": <CreateExam/>
   }
 
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import RoutingProvider from "./providers/RoutingProvider";
+import RoutingProvider from "./providers/Router/RoutingProvider";
 import {Box} from "grommet";
 import ExamNavbar from "./components/ExamNavbar/ExamNavbar";
 import {useLocation} from "react-router-dom";
@@ -15,7 +15,7 @@ function App() {
         minHeight: "undefined",
       }}
     >
-      { pathname !== '/login' && (
+      { pathname !== '/login' && pathname !== '/sign-up' && (
         <ExamNavbar/>
       )}
       <RoutingProvider/>

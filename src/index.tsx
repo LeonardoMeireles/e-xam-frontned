@@ -6,6 +6,7 @@ import {BrowserRouter} from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import App from './App';
 import theme from "./theme";
+import {AuthProvider} from "./providers/AuthContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,9 +14,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Grommet theme={theme}>
-      <BrowserRouter>
-        <App/>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <App/>
+        </BrowserRouter>
+      </AuthProvider>
     </Grommet>
   </React.StrictMode>
 );

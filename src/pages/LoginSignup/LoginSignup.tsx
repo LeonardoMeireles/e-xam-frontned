@@ -2,8 +2,52 @@ import {Box, Image, Text, TextInput} from "grommet";
 import {Lock, User} from "grommet-icons";
 
 import handBook from "../../assets/handBook.png"
+import {useContext, useState} from "react";
+import AuthContext from "../../providers/AuthContext";
+import {useNavigate} from "react-router-dom";
 
-export function Login(): JSX.Element {
+interface LoginSignupProps {
+  type: 'LOGIN' | 'SIGNUP'
+}
+
+export function LoginSignup(
+  {type}: LoginSignupProps
+): JSX.Element {
+  const navigate = useNavigate();
+  const {setUser} = useContext(AuthContext)
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const formType = {
+    LOGIN: {
+      title: 'Login',
+      buttonText: 'Sign-in',
+      submit: handleLogin,
+      subText: <p>Don\'t have an account? <strong>Sign up for free</strong></p>
+    },
+    SIGNUP: {
+      title: 'Register',
+      buttonText: 'Sign-up',
+      submit: handleSignup,
+      subText: <p>Already have an account? <strong>Login now</strong></p>
+    }
+  }
+
+  function handleLogin() {
+    setUser({
+      email: 'user_email@test.com',
+      role: 'professor'
+    })
+    navigate('/')
+  }
+
+  function handleSignup() {
+    setUser({
+      email: 'user_email@test.com',
+      role: 'professor'
+    })
+    navigate('/')
+  }
 
   return (
     <Box
@@ -67,7 +111,7 @@ export function Login(): JSX.Element {
             weight={800}
             size={"2rem"}
           >
-            Login
+            {formType[type].title}
           </Text>
           <Text
             textAlign={"center"}
@@ -84,13 +128,17 @@ export function Login(): JSX.Element {
               style={{
                 fontWeight: "500"
               }}
-              placeholder={"Username"}
+              placeholder={"Email"}
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
               icon={<User/>}
             />
             <TextInput
               style={{
                 fontWeight: "500"
               }}
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
               placeholder={"Password"}
               icon={<Lock/>}
             />
@@ -103,21 +151,29 @@ export function Login(): JSX.Element {
               cursor: "pointer"
             }}
             height={"2rem"}
+            hoverIndicator={{color: 'hover'}}
+            onClick={() => formType[type].submit()}
             justify={"center"}
           >
-            <Text textAlign={"center"} color={"white"}>Sign-in</Text>
+            <Text textAlign={"center"} color={"white"}>
+              {formType[type].buttonText}
+            </Text>
           </Box>
           <Text
             margin={"0.75rem 0 0 0"}
             textAlign={"center"}
             size={"0.75rem"}
             weight={200}
-            onClick={() => console.log("Sign-up")}
+            onClick={() => {
+              type === 'LOGIN'
+                ? navigate('/sign-up')
+                : navigate('/login')
+            }}
             style={{
               cursor: "pointer"
             }}
           >
-            Don't have an account? <strong>Sign up for free</strong>
+            {formType[type].subText}
           </Text>
         </Box>
       </Box>
@@ -125,4 +181,4 @@ export function Login(): JSX.Element {
   );
 };
 
-export default Login;
+export default LoginSignup;

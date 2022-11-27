@@ -1,6 +1,5 @@
 import {Box, Text} from "grommet";
 import {useNavigate, useParams} from "react-router-dom";
-import {MoreVertical} from "grommet-icons";
 
 export type ActivityType = 'question' | 'activity' | 'exam'
 
@@ -30,7 +29,6 @@ export function ActivityCard(
         hoverIndicator={{background: '#2E7397'}}
       >
         <Text size={'1.75rem'}>{type} {classId}</Text>
-        <MoreVertical height={24}/>
       </Box>
       <Text margin={'0.5rem 0 0 0'}>Description</Text>
     </Box>
