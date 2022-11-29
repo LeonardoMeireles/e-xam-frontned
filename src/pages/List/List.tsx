@@ -23,7 +23,7 @@ export function List(): JSX.Element {
         round={'5px'}
         background={'accent'}
         hoverIndicator={{background: 'hover'}}
-        onClick={() => navigate(`/${classId}/new-${listType}`)}
+        onClick={() => navigate(`/class/${classId}/new-${listType}`)}
         style={{cursor: 'pointer'}}
       >
         <Text textAlign={"center"}>Create New {listType!.charAt(0).toUpperCase() + listType!.slice(1) ?? ''}</Text>

@@ -6,10 +6,10 @@ import AuthContext from "../../providers/AuthContext";
 
 export function ExamNavbar(): JSX.Element {
 
-  const {setUser} = useContext(AuthContext)
-  const navigate = useNavigate()
+  const {user, logOut} = useContext(AuthContext);
+  const navigate = useNavigate();
   const {pathname} = useLocation();
-  const classId = matchPath({path: '/:classId', end: false}, pathname)?.params.classId;
+  const classId = matchPath({path: '/class/:classId', end: false}, pathname)?.params.classId;
 
   const selectedStyle: CSSProperties = {
     textDecoration: "unset",
@@ -47,10 +47,30 @@ export function ExamNavbar(): JSX.Element {
           }}
         />
       </Box>
+      {!classId && user?.role === 'admin' && (
+        <Box direction={"row"} gap={'0.75rem'}>
+          <NavLink
+            to={`/admin/pending`}
+            style={({isActive}) =>
+              isActive ? selectedStyle : unselectedStyle
+            }
+          >
+            Pending Approval
+          </NavLink>
+          <NavLink
+            to={`/admin/active`}
+            style={({isActive}) =>
+              isActive ? selectedStyle : unselectedStyle
+            }
+          >
+            Active Users
+          </NavLink>
+        </Box>
+      )}
       {classId && (
         <Box direction={"row"} gap={"4rem"}>
           <NavLink
-            to={`/${classId}/exam`}
+            to={`/class/${classId}/exam`}
             style={({isActive}) =>
               isActive ? selectedStyle : unselectedStyle
             }
@@ -58,7 +78,7 @@ export function ExamNavbar(): JSX.Element {
             Exams
           </NavLink>
           <NavLink
-            to={`/${classId}/question`}
+            to={`/class/${classId}/question`}
             style={({isActive}) =>
               isActive ? selectedStyle : unselectedStyle
             }
@@ -74,7 +94,7 @@ export function ExamNavbar(): JSX.Element {
           justify={"center"}
           background={"#f34f4f"}
           onClick={() => {
-            setUser(undefined);
+            logOut();
             navigate("/login")
           }}
           style={{

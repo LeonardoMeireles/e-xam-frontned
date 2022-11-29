@@ -44,7 +44,7 @@ export function LoginSignup(
   function handleSignup() {
     setUser({
       email: 'user_email@test.com',
-      role: 'professor'
+      role: 'admin'
     })
     navigate('/')
   }

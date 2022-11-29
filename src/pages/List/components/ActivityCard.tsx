@@ -24,7 +24,7 @@ export function ActivityCard(
         align={"center"}
         width={'100%'}
         direction={"row"}
-        onClick={() => navigate(`/${classId}/${type}/${questionId}`)}
+        onClick={() => navigate(`/class/${classId}/${type}/${questionId}`)}
         border={{color: '#FFF', size: '1px', style: 'solid', side: 'bottom'}}
         hoverIndicator={{background: '#2E7397'}}
       >
