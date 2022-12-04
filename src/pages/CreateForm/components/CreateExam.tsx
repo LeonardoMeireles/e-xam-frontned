@@ -1,15 +1,25 @@
 import {Box, FormField, TextArea, Text, TextInput, Select, Form} from "grommet";
 import {Add, Trash} from "grommet-icons";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Question from "../../Question/components/Question";
 
 export function CreateExam(): JSX.Element {
 
-  const [questions, setQuestions] = useState<any[]>([undefined])
-  const questionList = ['Test']
+  const [exam, setExam] = useState({});
+  const [questions, setQuestions] = useState<any[]>([{}]);
+  const questionList = ['Test'];
+
+  useEffect(() => {
+    setExam({...exam, questions: questions})
+  }, [questions])
+
+  console.log(exam)
 
   return (
-    <Form>
+    <Form
+      value={exam}
+      onChange={exam => setExam(exam)}
+    >
       <Box
         width={'100%'}
         margin={{bottom: '1.5rem'}}
@@ -19,7 +29,7 @@ export function CreateExam(): JSX.Element {
       <FormField
         width={'100%'}
         style={{fontWeight: 500}}
-        name="question"
+        name="examTitle"
         htmlFor="text-input-id"
         label="Exam Title"
       >
@@ -28,7 +38,7 @@ export function CreateExam(): JSX.Element {
       <FormField name="name" label="Description" margin={'1.5rem 0 2rem 0'} style={{fontWeight: 500}}>
         <TextArea
           id="text-input-id"
-          name="title"
+          name="description"
           style={{fontWeight: 400}}
           placeholder={'Give instructions or context for the question.'}
         />

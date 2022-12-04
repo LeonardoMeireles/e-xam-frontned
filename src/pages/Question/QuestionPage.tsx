@@ -1,7 +1,10 @@
 import {Box, Text} from "grommet";
 import Question from "./components/Question";
+import {useState} from "react";
 
 export function QuestionPage(): JSX.Element {
+
+  const [answer, setAnswer] = useState('');
 
   return (
     <Box

@@ -5,6 +5,7 @@ import handBook from "../../assets/handBook.png"
 import {useContext, useState} from "react";
 import AuthContext from "../../providers/AuthContext";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 interface LoginSignupProps {
   type: 'LOGIN' | 'SIGNUP'

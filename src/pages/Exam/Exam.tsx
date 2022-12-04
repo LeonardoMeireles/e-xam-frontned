@@ -1,7 +1,10 @@
 import {Box, Text} from "grommet";
 import Question from "../Question/components/Question";
+import {useState} from "react";
 
 export function Exam(): JSX.Element {
+
+  const [answers, setAnswers] = useState<string[]>(['', '']);
 
   return (
     <Box
@@ -48,7 +51,7 @@ export function Exam(): JSX.Element {
             width={'100%'}
             alignSelf={"center"}
           >
-            <Question display={'question'}/>
+            <Question display={'question'} setAnswers={setAnswers}/>
           </Box>
           <Box
             border={{color: '#282828', size: '1px'}}

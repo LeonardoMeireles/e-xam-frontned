@@ -1,6 +1,6 @@
 import {Box, FormField, TextArea, Text, TextInput, Select, Form} from "grommet";
 import {Add} from "grommet-icons";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 
 enum QuestionType {
@@ -10,11 +10,32 @@ enum QuestionType {
 
 export function CreateQuestion(): JSX.Element {
   const questionTypes = Object.values(QuestionType);
+  const [question, setQuestion] = useState<any>({
+    question: ''
+  });
   const [questionType, setQuestionType] = useState<string>(questionTypes[0]);
   const [options, setOptions] = useState<string[]>([''])
 
+  console.log(question)
+
+  useEffect(() => {
+    setQuestion((question: any) => {
+      return {
+        ...question,
+        options: options
+      }
+    })
+  }, [options])
+
+  function handleSubmit() {
+    console.log('Submit')
+  }
+
   return (
-    <Form>
+    <Form
+      value={question}
+      onChange={nextValue => setQuestion(nextValue)}
+    >
       <Box direction={"row"} gap={'0.75rem'} justify={"between"}>
         <FormField
           width={'80%'}
@@ -28,9 +49,17 @@ export function CreateQuestion(): JSX.Element {
         <FormField name="type" label="Question Type" style={{fontWeight: 500}}>
           <Select
             value={questionType}
-            name="Question"
+            name="questionType"
             style={{fontWeight: 400}}
-            onChange={(event) => setQuestionType(event.target.value)}
+            onChange={(event) => {
+              setQuestion((question: any) => {
+               if(event.target.value === 'multiple choice'){
+                 return {question: question?.question, instructions: '', options: options};
+               }
+               return {question: question?.question, instructions: ''};
+              });
+              setQuestionType(event.target.value);
+            }}
             options={questionTypes}
           />
         </FormField>
@@ -38,7 +67,7 @@ export function CreateQuestion(): JSX.Element {
       <FormField name="name" label="Instructions" margin={'1rem 0 1rem 0'} style={{fontWeight: 500}}>
         <TextArea
           id="text-input-id"
-          name="title"
+          name="instructions"
           style={{fontWeight: 400}}
           placeholder={'Give instructions or context for the question.'}
         />
@@ -75,6 +104,22 @@ export function CreateQuestion(): JSX.Element {
           >
             <Add width={'24px'} height={'24px'}/>
             <Text>Add another option</Text>
+          </Box>
+          <Box
+            background={'accent'}
+            round={'5px'}
+            pad={'8px 16px'}
+            width={'100%'}
+            margin={{top: '2.5rem'}}
+            alignSelf={"end"}
+            hoverIndicator={{background: '#34417c'}}
+            elevation={'small'}
+            onClick={() => handleSubmit()}
+            style={{cursor: 'pointer', minHeight: 'unset'}}
+          >
+            <Text textAlign={"center"} color={'#FFF'} weight={700}>
+              Submit Question
+            </Text>
           </Box>
         </Box>
       )}

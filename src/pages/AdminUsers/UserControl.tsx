@@ -54,21 +54,42 @@ export function UserControl(
                   {user.role}
                 </TableCell>
                 <TableCell style={{alignItems: 'end'}}>
-                  <Box
-                    height={"2rem"}
-                    width={'fit-content'}
-                    pad={"0.5rem"}
-                    justify={"center"}
-                    background={"#49a825"}
-                    onClick={() => console.log('Test')}
-                    style={{
-                      borderRadius: "7px"
-                    }}
-                  >
-                    <Text color={"white"}>
-                      Approve
-                    </Text>
-                  </Box>
+                  {userType === 'Pending'
+                    ? (
+                      <Box
+                        height={"2rem"}
+                        width={'fit-content'}
+                        pad={"0.5rem"}
+                        justify={"center"}
+                        background={"#49a825"}
+                        onClick={() => console.log('Test')}
+                        style={{
+                          borderRadius: "7px"
+                        }}
+                      >
+                        <Text color={"white"}>
+                          Approve
+                        </Text>
+                      </Box>
+                    )
+                    : (
+                      <Box
+                        height={"2rem"}
+                        width={'fit-content'}
+                        pad={"0.5rem"}
+                        justify={"center"}
+                        background={"#911717"}
+                        onClick={() => console.log('Test')}
+                        style={{
+                          borderRadius: "7px"
+                        }}
+                      >
+                        <Text color={"white"}>
+                          Remove
+                        </Text>
+                      </Box>
+                    )
+                  }
                 </TableCell>
               </TableRow>
             )

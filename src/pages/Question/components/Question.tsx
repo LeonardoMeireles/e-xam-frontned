@@ -1,20 +1,32 @@
 import {Box, FormField, TextArea, Text} from "grommet";
 import {RadioButton} from "grommet/es6";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 interface QuestionProps {
   display: 'question' | 'exam-creation',
-
+  setAnswers?: (value: (((prevState: string[]) => string[]) | string[])) => void,
 }
 
 export function Question(
-  {display}: QuestionProps
+  {
+    display,
+    setAnswers,
+  }: QuestionProps
 ): JSX.Element {
 
   const [selectedOption, setSelectedOption] = useState<number>();
   const [essayAnswer, setEssayAnswer] = useState<string>('');
   const questionType = 'essay'
   const options = ['TEST1', 'TEST2', 'TEST3']
+
+  useEffect(() => {
+    if(!setAnswers) return
+    if(questionType === 'essay'){
+      setAnswers((answers: string[]) => [...answers, essayAnswer])
+    } else if(selectedOption) {
+      setAnswers((answers: string[]) => [...answers, options[selectedOption]])
+    }
+  }, [selectedOption, essayAnswer])
 
   return (
     <Box width={'100%'}>
