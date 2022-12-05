@@ -2,7 +2,7 @@ import {Box, Image, Text, TextInput} from "grommet";
 import {Lock, User} from "grommet-icons";
 
 import handBook from "../../assets/handBook.png"
-import {useContext, useState} from "react";
+import {useCallback, useContext, useState} from "react";
 import AuthContext from "../../providers/AuthContext";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
@@ -19,6 +19,44 @@ export function LoginSignup(
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
+  const handleLogin = useCallback(() => {
+    axios.post('http://18.231.91.30/api/auth/login',
+      {
+        email: email,
+        password: password
+      }).then((res: any) => {
+      const accessToken = res.data.accessToken;
+      if (accessToken) {
+        axios.get('http://18.231.91.30/api/user/by_email',
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+            params: {
+              email: email
+            }
+          }).then((response: any) => {
+          setUser({
+            id: response.data.id,
+            name: response.data.name,
+            email: email,
+            role: response.data.role,
+            accessToken: accessToken,
+          });
+          navigate('/')
+        })
+      }
+    })
+  }, [email, password, navigate, setUser])
+
+  function handleSignup() {
+    setUser({
+      email: 'user_email@test.com',
+      role: 'PROFESSOR'
+    })
+    navigate('/')
+  }
+
   const formType = {
     LOGIN: {
       title: 'Login',
@@ -32,22 +70,6 @@ export function LoginSignup(
       submit: handleSignup,
       subText: <p>Already have an account? <strong>Login now</strong></p>
     }
-  }
-
-  function handleLogin() {
-    setUser({
-      email: 'user_email@test.com',
-      role: 'professor'
-    })
-    navigate('/')
-  }
-
-  function handleSignup() {
-    setUser({
-      email: 'user_email@test.com',
-      role: 'admin'
-    })
-    navigate('/')
   }
 
   return (

@@ -6,7 +6,7 @@ const ProfessorRoute = () => {
   const {user} = useContext(AuthContext);
   const location = useLocation();
   return (
-    user.role === 'professor' ? <Outlet/> : <Navigate  to='/' state={{from: location}}/>
+    user.role === 'PROFESSOR' ? <Outlet/> : <Navigate  to='/' state={{from: location}}/>
   )
 }
 

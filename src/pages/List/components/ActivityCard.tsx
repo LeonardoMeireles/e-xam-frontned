@@ -4,15 +4,17 @@ import {useNavigate, useParams} from "react-router-dom";
 export type ActivityType = 'question' | 'activity' | 'exam'
 
 interface ActivityCardProps {
-  type: ActivityType
+  type: ActivityType,
+  id: string,
+  title: string,
+  description: string
 }
 
 export function ActivityCard(
-  {type}: ActivityCardProps
+  {type, id}: ActivityCardProps
 ): JSX.Element {
   const {classId} = useParams();
   const navigate = useNavigate();
-  const questionId = '123'
 
   return (
     <Box
@@ -30,7 +32,7 @@ export function ActivityCard(
           round={'5px'}
           width={'100%'}
           direction={"row"}
-          onClick={() => navigate(`/class/${classId}/${type}/${questionId}`)}
+          onClick={() => navigate(`/class/${classId}/${type}/${id}`)}
           border={{color: '#FFF', size: '1px', style: 'solid', side: 'bottom'}}
           hoverIndicator={{background: '#2E7397'}}
         >

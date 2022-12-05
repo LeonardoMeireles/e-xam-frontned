@@ -1,11 +1,30 @@
 import {Box, Text} from "grommet";
 import ActivityCard, {ActivityType} from "./components/ActivityCard";
 import {useNavigate, useParams} from "react-router-dom";
+import {useContext, useEffect, useState} from "react";
+import AuthContext from "../../providers/AuthContext";
+import axios from "axios";
 
 export function List(): JSX.Element {
 
   const navigate = useNavigate();
+  const {user} = useContext(AuthContext)
   const {listType, classId} = useParams()
+  const [list, setList] = useState<any []>([])
+
+  //get list
+  useEffect(() => {
+    axios.get(`http://18.231.91.30/api/${listType}/by_class_id`, {
+      headers: {
+        Authorization: `Bearer ${user.auth}`,
+      },
+      params: {
+        classId: classId
+      }
+    }).then((res: any) => {
+      setList(res.data)
+    })
+  }, [classId, listType, user.auth])
 
   return (
     <Box
@@ -28,8 +47,11 @@ export function List(): JSX.Element {
       >
         <Text textAlign={"center"}>Create New {listType!.charAt(0).toUpperCase() + listType!.slice(1) ?? ''}</Text>
       </Box>
-      {listType &&
-        <ActivityCard type={listType as ActivityType}/>
+      {list && list.map((listItem) => {
+          return (
+            <ActivityCard type={listType as ActivityType}  id={'123'} description={listItem.description ?? listItem.instruction} title={listItem.title}/>
+          )
+        })
       }
     </Box>
   );

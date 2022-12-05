@@ -1,10 +1,25 @@
-import {Box, Text} from "grommet";
+import {Box, Spinner, Text} from "grommet";
 import Question from "./components/Question";
-import {useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import axios from "axios";
+import AuthContext from "../../providers/AuthContext";
+import {useParams} from "react-router-dom";
 
 export function QuestionPage(): JSX.Element {
 
-  const [answer, setAnswer] = useState('');
+  const {user} = useContext(AuthContext);
+  const {questionId} = useParams();
+  const [question, setQuestion] = useState();
+
+  useEffect(() => {
+    axios.get(`http://18.231.91.30/api/question/${questionId}`, {
+      headers: {
+        Authorization: `Bearer ${user.auth}`,
+      },
+    }).then((res: any) => {
+      setQuestion(res.data)
+    })
+  }, [])
 
   return (
     <Box
@@ -32,21 +47,28 @@ export function QuestionPage(): JSX.Element {
           background={'#FFF'}
           height={'100%'}
         >
-          <Question display={'question'}/>
-          <Box
-            background={'accent'}
-            round={'5px'}
-            pad={'8px 16px'}
-            width={'100%'}
-            margin={{top: '1.25rem'}}
-            alignSelf={"end"}
-            hoverIndicator={{background: '#34417c'}}
-            elevation={'small'}
-            onClick={() => console.log('Submit')}
-            style={{cursor: 'pointer'}}
-          >
-            <Text textAlign={"center"} color={'#FFF'} weight={700}>Submit Answer</Text>
-          </Box>
+          {question
+            ? (
+              <>
+                <Question question={question} display={'question'}/>
+                <Box
+                  background={'accent'}
+                  round={'5px'}
+                  pad={'8px 16px'}
+                  width={'100%'}
+                  margin={{top: '1.25rem'}}
+                  alignSelf={"end"}
+                  hoverIndicator={{background: '#34417c'}}
+                  elevation={'small'}
+                  onClick={() => console.log('Submit')}
+                  style={{cursor: 'pointer'}}
+                >
+                  <Text textAlign={"center"} color={'#FFF'} weight={700}>Submit Answer</Text>
+                </Box>
+              </>
+            )
+            : <Spinner height={'24px'} width={'24px'}/>
+          }
         </Box>
       </Box>
     </Box>

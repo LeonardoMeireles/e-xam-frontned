@@ -9,7 +9,7 @@ import Exam from "../../pages/Exam/Exam";
 import AuthContext from "../AuthContext";
 import ProfessorRoute from "./ProfessorRoute";
 import AdminRoute from "./AdminRoute";
-import UserControl from "../../pages/AdminUsers/UserControl";
+import UserControl from "../../pages/Admin/UserControl";
 
 const RoutingProvider = (): JSX.Element => {
   const { pathname } = useLocation();

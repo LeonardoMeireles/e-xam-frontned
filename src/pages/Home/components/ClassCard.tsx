@@ -2,19 +2,16 @@ import {Box, Card, CardBody, CardFooter, CardHeader, Text} from "grommet";
 import {useNavigate} from "react-router-dom";
 
 interface ClassCardProps {
-  id: string,
-  name: string,
-  description: string,
-  professorName: string,
+  classroom: {
+    id: number,
+    name: string,
+    description: string,
+    professorEmail: string,
+  }
 }
 
 export function ClassCard(
-  {
-    id,
-    name,
-    description,
-    professorName
-  }: ClassCardProps
+  {classroom}: ClassCardProps
 ): JSX.Element {
 
   const navigate = useNavigate();
@@ -24,7 +21,7 @@ export function ClassCard(
       width={"200px"}
       height={"220px"}
       margin={"1rem 1rem 0 0"}
-      onClick={() => navigate(`/class/${id}/exam`)}
+      onClick={() => navigate(`/class/${classroom.id}/exam`)}
     >
       <CardHeader
         background={"#2E7397"}
@@ -33,8 +30,8 @@ export function ClassCard(
         align={"start"}
       >
         <Box>
-          <Text size={"medium"}>{name}</Text>
-          <Text size={"small"}>{professorName}</Text>
+          <Text size={"medium"}>{classroom.name}</Text>
+          <Text size={"small"}>{classroom.professorEmail}</Text>
         </Box>
       </CardHeader>
       <CardBody
@@ -42,7 +39,7 @@ export function ClassCard(
         pad={"8px"}
       >
         <Text size={"small"}>Class description:</Text>
-        <Text size={"small"}>{description}</Text>
+        <Text size={"small"}>{classroom.description}</Text>
       </CardBody>
       <CardFooter/>
     </Card>

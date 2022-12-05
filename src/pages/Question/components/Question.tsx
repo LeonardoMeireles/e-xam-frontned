@@ -2,41 +2,51 @@ import {Box, FormField, TextArea, Text} from "grommet";
 import {RadioButton} from "grommet/es6";
 import {useEffect, useState} from "react";
 
+interface Question {
+  id: number,
+  title: string,
+  instruction: string,
+  choices: string[],
+  answer: number,
+  classId: number
+}
+
 interface QuestionProps {
   display: 'question' | 'exam-creation',
+  question: Question
   setAnswers?: (value: (((prevState: string[]) => string[]) | string[])) => void,
 }
 
 export function Question(
   {
     display,
+    question,
     setAnswers,
   }: QuestionProps
 ): JSX.Element {
 
   const [selectedOption, setSelectedOption] = useState<number>();
   const [essayAnswer, setEssayAnswer] = useState<string>('');
-  const questionType = 'essay'
-  const options = ['TEST1', 'TEST2', 'TEST3']
+  const questionType = question.choices.length > 0 ? 'multiple choices' : 'essay';
 
   useEffect(() => {
     if(!setAnswers) return
     if(questionType === 'essay'){
       setAnswers((answers: string[]) => [...answers, essayAnswer])
     } else if(selectedOption) {
-      setAnswers((answers: string[]) => [...answers, options[selectedOption]])
+      setAnswers((answers: string[]) => [...answers, question.choices[selectedOption]])
     }
   }, [selectedOption, essayAnswer])
 
   return (
     <Box width={'100%'}>
-      <Text weight={700} size={display === 'question' ? '2rem' : '1.25rem'}>Question Title</Text>
-      <Text>Question description: </Text>
+      <Text weight={700} size={display === 'question' ? '2rem' : '1.25rem'}>{question.title}e</Text>
+      <Text>{question.instruction}</Text>
       {display !== "exam-creation" && (
         <>
           {questionType !== 'essay'
             ? <Box margin={'0.5rem 0 0 0'} justify={"center"} gap={'1rem'}>
-              {options.map((option, index) => {
+              {question.choices.map((option, index) => {
                 return (
                   <RadioButton
                     key={index}

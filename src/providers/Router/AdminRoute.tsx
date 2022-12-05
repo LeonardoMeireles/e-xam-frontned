@@ -7,7 +7,7 @@ const AdminRoute = () => {
   const location = useLocation();
   console.log(user.email)
   return (
-    user?.role === 'admin' ? <Outlet/> : <Navigate  to='/' state={{from: location}}/>
+    user?.role === 'ADMIN' ? <Outlet/> : <Navigate  to='/' state={{from: location}}/>
   )
 }
 

@@ -1,19 +1,52 @@
 import {Box, FormField, TextArea, Text, TextInput, Select, Form} from "grommet";
 import {Add, Trash} from "grommet-icons";
-import {useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import Question from "../../Question/components/Question";
+import axios from "axios";
+import AuthContext from "../../../providers/AuthContext";
+import {useParams} from "react-router-dom";
 
 export function CreateExam(): JSX.Element {
 
-  const [exam, setExam] = useState({});
-  const [questions, setQuestions] = useState<any[]>([{}]);
-  const questionList = ['Test'];
 
-  useEffect(() => {
-    setExam({...exam, questions: questions})
-  }, [questions])
+  const {classId} = useParams();
+  const {user} = useContext(AuthContext)
+  const [exam, setExam] = useState<any>({
+    questionIds: [],
+    title: '',
+    classId: classId,
+    professorEmail: user.email
+  });
+  const [submitted, setSubmitted] = useState<boolean>(false)
+  const [selectedQuestions, setSelectedQuestions] = useState<any[]>([]);
+  const [questionList, setQuestionList] = useState<any[]>([]);
+  const questionTitleList = questionList.map((question: any) => question.title)
 
   console.log(exam)
+
+  const handleSubmit = useCallback(() => {
+    axios.post(`http://18.231.91.30/api/exam`, {...exam}).then((res: any) => {
+      setSubmitted(true);
+    })
+  }, [exam])
+
+  //get questions
+  useEffect(() => {
+    axios.get('http://18.231.91.30/api/question/by_class_id', {
+      headers: {
+        Authorization: `Bearer ${user.auth}`,
+      },
+      params: {
+        classId
+      }
+    }).then((res: any) => {
+      setQuestionList(res.data)
+    })
+  }, [])
+
+  useEffect(() => {
+    setExam({...exam, questionIds: selectedQuestions})
+  }, [selectedQuestions])
 
   return (
     <Form
@@ -29,11 +62,11 @@ export function CreateExam(): JSX.Element {
       <FormField
         width={'100%'}
         style={{fontWeight: 500}}
-        name="examTitle"
+        name="title"
         htmlFor="text-input-id"
         label="Exam Title"
       >
-        <TextInput name="question"/>
+        <TextInput name="title"/>
       </FormField>
       <FormField name="name" label="Description" margin={'1.5rem 0 2rem 0'} style={{fontWeight: 500}}>
         <TextArea
@@ -45,7 +78,7 @@ export function CreateExam(): JSX.Element {
       </FormField>
       <Text weight={700}>Questions</Text>
       <Box justify={"center"} gap={'1rem'}>
-        {questions.map((question, index) => {
+        {selectedQuestions.length > 0 && selectedQuestions.map((questionId, index) => {
           return (
             <Box
               key={index}
@@ -56,17 +89,18 @@ export function CreateExam(): JSX.Element {
               round={'5px'}
               border={{color: '#282828', size: '1px'}}
             >
-              {question
-                ? <Question display={"exam-creation"}/>
+              {questionId
+                ? <Question question={questionList.find((question: any) => question.id === questionId)} display={"exam-creation"}/>
                 : <Select
                   placeholder={'Select a question'}
                   onChange={(event) =>
-                    setQuestions((questions) => {
-                      questions[index] = event.target.value
+                    // setExam((exam: any) => {...exam, questionIds: [...exam.questionIds]})
+                    setSelectedQuestions((questions) => {
+                      questions[index] = questionList[event.selected]?.id
                       return [...questions]
                     })
                   }
-                  options={questionList}
+                  options={questionTitleList}
                 />
               }
               <Trash
@@ -76,7 +110,7 @@ export function CreateExam(): JSX.Element {
                   cursor: 'pointer'
                 }}
                 onClick={() => {
-                  setQuestions((questions) => {
+                  setSelectedQuestions((questions) => {
                     questions.splice(index, 1)
                     return [...questions]
                   })
@@ -91,26 +125,28 @@ export function CreateExam(): JSX.Element {
           gap={'1.10rem'}
           margin={{top: '1rem'}}
           style={{cursor: "pointer"}}
-          onClick={() => setQuestions((questions) => [...questions, undefined])}
+          onClick={() => setSelectedQuestions((questions) => [...questions, undefined])}
         >
           <Add width={'24px'} height={'24px'}/>
           <Text>Add another question</Text>
         </Box>
       </Box>
       <Box
-        background={'accent'}
+        background={submitted ? "#49a825" : 'accent'}
         round={'5px'}
         pad={'8px 16px'}
         width={'100%'}
         margin={{top: '2.5rem'}}
         alignSelf={"end"}
-        hoverIndicator={{background: '#34417c'}}
+        hoverIndicator={submitted ? {} : {background: '#34417c'}}
         elevation={'small'}
-        onClick={() => console.log('Submit')}
+        onClick={() => {
+          if(!submitted) handleSubmit()
+        }}
         style={{cursor: 'pointer', minHeight: 'unset'}}
       >
         <Text textAlign={"center"} color={'#FFF'} weight={700}>
-          Submit Exam
+          {submitted ? "Exam Created" : "Create Exam"}
         </Text>
       </Box>
     </Form>

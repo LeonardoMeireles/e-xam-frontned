@@ -1,6 +1,8 @@
 import {Box, FormField, TextArea, Text, TextInput, Select, Form} from "grommet";
 import {Add} from "grommet-icons";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
+import axios from "axios";
+import {useParams} from "react-router-dom";
 
 
 enum QuestionType {
@@ -10,41 +12,49 @@ enum QuestionType {
 
 export function CreateQuestion(): JSX.Element {
   const questionTypes = Object.values(QuestionType);
+  const {classId} = useParams();
   const [question, setQuestion] = useState<any>({
-    question: ''
+    title: '',
+    classId,
   });
   const [questionType, setQuestionType] = useState<string>(questionTypes[0]);
   const [options, setOptions] = useState<string[]>([''])
+  const [submitted, setSubmitted] = useState<boolean>(false)
 
-  console.log(question)
+  const handleSubmit = useCallback(() => {
+    axios.post(`http://18.231.91.30/api/question`,
+      {...question},
+      // {Authorization: `Bearer ${}`}
+    ).then((res: any) => {
+      setSubmitted(true);
+    })
+  }, [question])
 
   useEffect(() => {
     setQuestion((question: any) => {
       return {
         ...question,
-        options: options
+        choices: options
       }
     })
   }, [options])
 
-  function handleSubmit() {
-    console.log('Submit')
-  }
+  console.log(question)
 
   return (
     <Form
       value={question}
-      onChange={nextValue => setQuestion(nextValue)}
+      onChange={nextValue => setQuestion({...nextValue, classId: classId})}
     >
       <Box direction={"row"} gap={'0.75rem'} justify={"between"}>
         <FormField
           width={'80%'}
           style={{fontWeight: 500}}
-          name="question"
+          name="title"
           htmlFor="text-input-id"
-          label="Question"
+          label="Title"
         >
-          <TextInput name="question"/>
+          <TextInput name="title"/>
         </FormField>
         <FormField name="type" label="Question Type" style={{fontWeight: 500}}>
           <Select
@@ -53,10 +63,10 @@ export function CreateQuestion(): JSX.Element {
             style={{fontWeight: 400}}
             onChange={(event) => {
               setQuestion((question: any) => {
-               if(event.target.value === 'multiple choice'){
-                 return {question: question?.question, instructions: '', options: options};
-               }
-               return {question: question?.question, instructions: ''};
+                if (event.target.value === 'multiple choice') {
+                  return {title: question?.title, instructions: '', options: options};
+                }
+                return {title: question?.title, instructions: ''};
               });
               setQuestionType(event.target.value);
             }}
@@ -64,10 +74,10 @@ export function CreateQuestion(): JSX.Element {
           />
         </FormField>
       </Box>
-      <FormField name="name" label="Instructions" margin={'1rem 0 1rem 0'} style={{fontWeight: 500}}>
+      <FormField name="instruction" label="Instructions" margin={'1rem 0 1rem 0'} style={{fontWeight: 500}}>
         <TextArea
           id="text-input-id"
-          name="instructions"
+          name="instruction"
           style={{fontWeight: 400}}
           placeholder={'Give instructions or context for the question.'}
         />
@@ -105,24 +115,26 @@ export function CreateQuestion(): JSX.Element {
             <Add width={'24px'} height={'24px'}/>
             <Text>Add another option</Text>
           </Box>
-          <Box
-            background={'accent'}
-            round={'5px'}
-            pad={'8px 16px'}
-            width={'100%'}
-            margin={{top: '2.5rem'}}
-            alignSelf={"end"}
-            hoverIndicator={{background: '#34417c'}}
-            elevation={'small'}
-            onClick={() => handleSubmit()}
-            style={{cursor: 'pointer', minHeight: 'unset'}}
-          >
-            <Text textAlign={"center"} color={'#FFF'} weight={700}>
-              Submit Question
-            </Text>
-          </Box>
         </Box>
       )}
+      <Box
+        background={submitted ? "#49a825" : 'accent'}
+        round={'5px'}
+        pad={'8px 16px'}
+        width={'100%'}
+        margin={{top: '2.5rem'}}
+        alignSelf={"end"}
+        hoverIndicator={submitted ? {} : {background: '#34417c'}}
+        elevation={'small'}
+        onClick={() => {
+          if (!submitted) handleSubmit()
+        }}
+        style={{cursor: 'pointer', minHeight: 'unset'}}
+      >
+        <Text textAlign={"center"} color={'#FFF'} weight={700}>
+          {submitted ? 'Create Question' : "Question Created"}
+        </Text>
+      </Box>
     </Form>
   );
 };

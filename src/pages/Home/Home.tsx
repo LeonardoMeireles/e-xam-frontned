@@ -1,46 +1,47 @@
 import {Box, Text} from "grommet";
 import ClassCard from "./components/ClassCard";
+import {useContext, useEffect} from "react";
+import AuthContext from "../../providers/AuthContext";
+import axios from "axios";
 
 export function Home(): JSX.Element {
 
   const dummyClassData = [
     {
-      id: "123",
-      name: "Test",
-      professorName: "Prof. Tilambo Ucano",
-      description: "Some description"
-    },
-    {
-      id: "124",
-      name: "Test",
-      professorName: "Prof. Tilambo Ucano",
-      description: "Some description"
-    },
-    {
-      id: "125",
-      name: "Test",
-      professorName: "Prof. Tilambo Ucano",
-      description: "Some description"
-    },
-    {
-      id: "126",
-      name: "Test",
-      professorName: "Prof. Tilambo Ucano",
-      description: "Some description"
-    },
-    {
-      id: "127",
-      name: "Test",
-      professorName: "Prof. Tilambo Ucano",
-      description: "Some description"
-    },
-    {
-      id: "128",
-      name: "Test",
-      professorName: "Prof. Tilambo Ucano",
-      description: "Some description"
+      id: 123,
+      name: 'Test',
+      description: 'Some description',
+      professorEmail: 'dayde_costa@hotmail.com',
     },
   ]
+
+  const {user} = useContext(AuthContext)
+
+  //get classes
+  useEffect(() => {
+    if( user.role === 'STUDENT') {
+      axios.get(`http://18.231.91.30/api/class/by_student`, {
+        headers: {
+          Authorization: `Bearer ${user.auth}`,
+        },
+        params: {
+          studentId: user.id
+        }
+      }).then((res: any) => {
+        console.log(res)
+      })
+    } else {
+      axios.get(`http://18.231.91.30/api/class/by_professor`, {
+        headers: {
+          Authorization: `Bearer ${user.auth}`,
+        },
+        params: {
+          professorEmail: user.email
+        }
+      }).then((res: any) => {
+      })
+    }
+  }, [user.auth, user.id, user.role, user.email])
 
   return (
     <Box
@@ -59,10 +60,7 @@ export function Home(): JSX.Element {
           return (
             <ClassCard
               key={classroom.id}
-              id={classroom.id}
-              name={classroom.name}
-              professorName={classroom.name}
-              description={classroom.description}
+              classroom={classroom}
             />
           )
         })}
