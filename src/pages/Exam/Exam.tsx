@@ -122,7 +122,7 @@ export function Exam(): JSX.Element {
                 style={{cursor: 'pointer', minHeight: 'unset'}}
               >
                 <Text textAlign={"center"} color={'#FFF'} weight={700}>
-                  {submitted ? "Submit Exam" : "Exam Submitted"}
+                  {submitted ? "Exam Submitted" : "Submit Exam"}
                 </Text>
               </Box>
             </>

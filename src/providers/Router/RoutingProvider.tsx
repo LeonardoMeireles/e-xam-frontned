@@ -18,7 +18,7 @@ const RoutingProvider = (): JSX.Element => {
 
   // When navigating between pages, we expect the scrollbar to go to the top, instead of staying where it was on the old page
   useEffect(() => {
-    if(pathname !== '/sign-up' && !user) navigate('/login')
+    if((pathname !== '/sign-up') && !user?.email) navigate('/login')
     window.scrollTo(0, 0);
   }, [pathname, user, navigate]);
 

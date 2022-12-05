@@ -77,14 +77,16 @@ export function ExamNavbar(): JSX.Element {
           >
             Exams
           </NavLink>
-          <NavLink
-            to={`/class/${classId}/question`}
-            style={({isActive}) =>
-              isActive ? selectedStyle : unselectedStyle
-            }
-          >
-            Questions
-          </NavLink>
+          {user.role !== 'STUDENT' && (
+            <NavLink
+              to={`/class/${classId}/question`}
+              style={({isActive}) =>
+                isActive ? selectedStyle : unselectedStyle
+              }
+            >
+              Questions
+            </NavLink>
+          )}
         </Box>
       )}
       <Box gap={'0.75rem'} direction={"row"}>

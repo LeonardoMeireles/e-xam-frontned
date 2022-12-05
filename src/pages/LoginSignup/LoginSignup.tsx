@@ -52,9 +52,17 @@ export function LoginSignup(
   }, [email, password, navigate, setUser])
 
   function handleSignup() {
+    axios.post('http://18.231.91.30/api/user/by_email',
+      {
+        body: {
+          email: email,
+          password: password,
+          role: role
+        }
+      })
     setUser({
       email: email,
-      role: role,
+      role: role.toUpperCase(),
     })
     navigate('/')
   }
@@ -172,8 +180,9 @@ export function LoginSignup(
                 value={role}
                 name="questionType"
                 style={{fontWeight: 400}}
+                placeholder={'Role'}
                 onChange={(event) => {
-                  setRole(event.target.value.toUpperCase())
+                  setRole(event.target.value)
                 }}
                 options={roles}
               />
