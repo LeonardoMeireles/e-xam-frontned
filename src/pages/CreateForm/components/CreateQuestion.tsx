@@ -132,7 +132,7 @@ export function CreateQuestion(): JSX.Element {
         style={{cursor: 'pointer', minHeight: 'unset'}}
       >
         <Text textAlign={"center"} color={'#FFF'} weight={700}>
-          {submitted ? 'Create Question' : "Question Created"}
+          {submitted ? "Question Created" : 'Create Question'}
         </Text>
       </Box>
     </Form>

@@ -1,4 +1,4 @@
-import {Box, Image, Text, TextInput} from "grommet";
+import {Box, Image, Select, Text, TextInput} from "grommet";
 import {Lock, User} from "grommet-icons";
 
 import handBook from "../../assets/handBook.png"
@@ -16,7 +16,9 @@ export function LoginSignup(
 ): JSX.Element {
   const navigate = useNavigate();
   const {setUser} = useContext(AuthContext)
+  const roles = ['Student', 'Professor']
   const [email, setEmail] = useState<string>('');
+  const [role, setRole] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const handleLogin = useCallback(() => {
@@ -51,8 +53,8 @@ export function LoginSignup(
 
   function handleSignup() {
     setUser({
-      email: 'user_email@test.com',
-      role: 'PROFESSOR'
+      email: email,
+      role: role,
     })
     navigate('/')
   }
@@ -165,6 +167,17 @@ export function LoginSignup(
               placeholder={"Password"}
               icon={<Lock/>}
             />
+            {type === 'SIGNUP' && (
+              <Select
+                value={role}
+                name="questionType"
+                style={{fontWeight: 400}}
+                onChange={(event) => {
+                  setRole(event.target.value.toUpperCase())
+                }}
+                options={roles}
+              />
+            )}
           </Box>
           <Box
             margin={"1rem 0 0 0"}

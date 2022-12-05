@@ -67,7 +67,7 @@ export function QuestionPage(): JSX.Element {
                 </Box>
               </>
             )
-            : <Spinner height={'24px'} width={'24px'}/>
+            : <Spinner margin={'5rem 0'} size={"medium"} height={'24px'} alignSelf={"center"} width={'24px'}/>
           }
         </Box>
       </Box>

@@ -3,6 +3,7 @@ import {useCallback, useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import AuthContext from "../../providers/AuthContext";
+import Question from "../Question/components/Question";
 
 export function Exam(): JSX.Element {
 
@@ -13,18 +14,19 @@ export function Exam(): JSX.Element {
   const [submitted, setSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
-    axios.get(`http://18.231.91.30/api/exam/${examId}`, {
+    if(!examId) return;
+    axios.get(`http://18.231.91.30/api/exam/${parseInt(examId)}`, {
       headers: {
         Authorization: `Bearer ${user.auth}`,
       },
     }).then((res: any) => {
       const examRes = res.data;
-      axios.get(`http://18.231.91.30/api/exam/by_exam_id`, {
+      axios.get(`http://18.231.91.30/api/question/by_exam_id`, {
         headers: {
           Authorization: `Bearer ${user.auth}`,
         },
         params: {
-          examId: examId
+          examId: parseInt(examId)
         }
       }).then((response) => {
         setExam(examRes)
@@ -84,23 +86,26 @@ export function Exam(): JSX.Element {
                 width={'fit-content'}
                 alignSelf={"center"}
               >
-                <Text weight={700} size={'2rem'}>
+                <Text weight={400} size={'1.5rem'} margin={'0 0 0.5rem 0'}>
                   {exam.description}
                 </Text>
               </Box>
-              {}
               <Box
                 border={{color: '#282828', size: '1px'}}
                 pad={'1.5rem'}
                 style={{minHeight: 'unset'}}
                 round={'5px'}
+                gap={'1.5rem'}
                 width={'100%'}
                 alignSelf={"center"}
               >
-                {questions.map((questio) => {
-                  return (<></>)
+                {questions.map((question) => {
+                  return (
+                    <Box border={{size: '1px', color: '#282828'}} pad={'1rem'}>
+                      <Question display={'question'} question={question}/>
+                    </Box>
+                  )
                 })}
-                {/*<Question display={'question'} question={}/>*/}
               </Box>
               <Box
                 background={submitted ? "#49a825" : 'accent'}
@@ -117,11 +122,11 @@ export function Exam(): JSX.Element {
                 style={{cursor: 'pointer', minHeight: 'unset'}}
               >
                 <Text textAlign={"center"} color={'#FFF'} weight={700}>
-                  {submitted ? "Exam Created" : "Create Exam"}
+                  {submitted ? "Submit Exam" : "Exam Submitted"}
                 </Text>
               </Box>
             </>
-            : <Spinner/>
+            : <Spinner margin={'5rem 0'} size={"medium"} height={'24px'} alignSelf={"center"} width={'24px'}/>
           }
         </Box>
       </Box>

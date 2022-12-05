@@ -2,7 +2,7 @@ import {Box, FormField, TextArea, Text} from "grommet";
 import {RadioButton} from "grommet/es6";
 import {useEffect, useState} from "react";
 
-interface Question {
+interface QuestionType {
   id: number,
   title: string,
   instruction: string,
@@ -13,7 +13,7 @@ interface Question {
 
 interface QuestionProps {
   display: 'question' | 'exam-creation',
-  question: Question
+  question: QuestionType
   setAnswers?: (value: (((prevState: string[]) => string[]) | string[])) => void,
 }
 
@@ -36,11 +36,11 @@ export function Question(
     } else if(selectedOption) {
       setAnswers((answers: string[]) => [...answers, question.choices[selectedOption]])
     }
-  }, [selectedOption, essayAnswer])
+  }, [selectedOption, essayAnswer, question.choices, questionType, setAnswers])
 
   return (
     <Box width={'100%'}>
-      <Text weight={700} size={display === 'question' ? '2rem' : '1.25rem'}>{question.title}e</Text>
+      <Text weight={700} size={display === 'question' ? '2rem' : '1.25rem'}>{question.title}</Text>
       <Text>{question.instruction}</Text>
       {display !== "exam-creation" && (
         <>

@@ -35,21 +35,23 @@ export function List(): JSX.Element {
       pad={"2rem"}
       overflow={"auto"}
     >
-      <Box
-        width={'40%'}
-        margin={'0 0 2rem 0'}
-        pad={'8px 0'}
-        round={'5px'}
-        background={'accent'}
-        hoverIndicator={{background: 'hover'}}
-        onClick={() => navigate(`/class/${classId}/new-${listType}`)}
-        style={{cursor: 'pointer'}}
-      >
-        <Text textAlign={"center"}>Create New {listType!.charAt(0).toUpperCase() + listType!.slice(1) ?? ''}</Text>
-      </Box>
+      {user.role === 'PROFESSOR' && (
+        <Box
+          width={'40%'}
+          margin={'0 0 2rem 0'}
+          pad={'16px 0'}
+          round={'5px'}
+          background={'accent'}
+          hoverIndicator={{background: 'hover'}}
+          onClick={() => navigate(`/class/${classId}/new-${listType}`)}
+          style={{cursor: 'pointer'}}
+        >
+          <Text textAlign={"center"}>Create New {listType!.charAt(0).toUpperCase() + listType!.slice(1) ?? ''}</Text>
+        </Box>
+      )}
       {list && list.map((listItem) => {
           return (
-            <ActivityCard type={listType as ActivityType}  id={'123'} description={listItem.description ?? listItem.instruction} title={listItem.title}/>
+            <ActivityCard key={listItem.id} type={listType as ActivityType}  id={listItem.id} description={listItem.description ?? listItem.instruction} title={listItem.title}/>
           )
         })
       }

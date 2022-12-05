@@ -11,7 +11,7 @@ interface ActivityCardProps {
 }
 
 export function ActivityCard(
-  {type, id}: ActivityCardProps
+  {type, id, title, description}: ActivityCardProps
 ): JSX.Element {
   const {classId} = useParams();
   const navigate = useNavigate();
@@ -36,10 +36,10 @@ export function ActivityCard(
           border={{color: '#FFF', size: '1px', style: 'solid', side: 'bottom'}}
           hoverIndicator={{background: '#2E7397'}}
         >
-          <Text size={'1.75rem'}>Calculus Exam #1</Text>
+          <Text size={'1.75rem'}>{title}</Text>
         </Box>
         <Box pad={'1rem'}>
-          <Text margin={'0.5rem 0 0 0'}>The following exam relates to the classes we've had in our semester, please follow each of the questions' instruction and submit your answers. </Text>
+          <Text margin={'0.5rem 0 0 0'}>{description}</Text>
         </Box>
       </Box>
     </Box>

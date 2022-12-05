@@ -1,21 +1,13 @@
 import {Box, Text} from "grommet";
 import ClassCard from "./components/ClassCard";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import AuthContext from "../../providers/AuthContext";
 import axios from "axios";
 
 export function Home(): JSX.Element {
 
-  const dummyClassData = [
-    {
-      id: 123,
-      name: 'Test',
-      description: 'Some description',
-      professorEmail: 'dayde_costa@hotmail.com',
-    },
-  ]
-
   const {user} = useContext(AuthContext)
+  const [classroomList, setClassroomList] = useState<any[]>([])
 
   //get classes
   useEffect(() => {
@@ -28,7 +20,7 @@ export function Home(): JSX.Element {
           studentId: user.id
         }
       }).then((res: any) => {
-        console.log(res)
+        setClassroomList(res.data)
       })
     } else {
       axios.get(`http://18.231.91.30/api/class/by_professor`, {
@@ -39,6 +31,7 @@ export function Home(): JSX.Element {
           professorEmail: user.email
         }
       }).then((res: any) => {
+        setClassroomList(res.data)
       })
     }
   }, [user.auth, user.id, user.role, user.email])
@@ -56,7 +49,7 @@ export function Home(): JSX.Element {
         direction={"row"}
         wrap={true}
       >
-        {dummyClassData.map((classroom) => {
+        {classroomList.map((classroom) => {
           return (
             <ClassCard
               key={classroom.id}
