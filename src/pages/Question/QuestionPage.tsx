@@ -19,7 +19,7 @@ export function QuestionPage(): JSX.Element {
     }).then((res: any) => {
       setQuestion(res.data)
     })
-  }, [])
+  }, [questionId, user.auth])
 
   return (
     <Box

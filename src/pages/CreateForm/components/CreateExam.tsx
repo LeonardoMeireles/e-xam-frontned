@@ -42,10 +42,11 @@ export function CreateExam(): JSX.Element {
     }).then((res: any) => {
       setQuestionList(res.data)
     })
-  }, [])
+  }, [classId, user.auth])
 
   useEffect(() => {
     setExam({...exam, questionIds: selectedQuestions})
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedQuestions])
 
   return (

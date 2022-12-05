@@ -9,7 +9,7 @@ export function Exam(): JSX.Element {
   const {examId} = useParams();
   const {user} = useContext(AuthContext);
   const [exam, setExam] = useState<any>();
-  const [questions, setQuestions] = useState<any[]>();
+  const [questions, setQuestions] = useState<any[]>([]);
   const [submitted, setSubmitted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -24,17 +24,18 @@ export function Exam(): JSX.Element {
           Authorization: `Bearer ${user.auth}`,
         },
         params: {
-          examId: exam.id
+          examId: examId
         }
       }).then((response) => {
         setExam(examRes)
         setQuestions(response.data)
       })
     })
-  }, [])
+  }, [examId, user.auth])
 
   const handleSubmit = useCallback(() => {
     console.log('Hum submit')
+    setSubmitted(true)
   }, [])
 
   return (
@@ -96,6 +97,9 @@ export function Exam(): JSX.Element {
                 width={'100%'}
                 alignSelf={"center"}
               >
+                {questions.map((questio) => {
+                  return (<></>)
+                })}
                 {/*<Question display={'question'} question={}/>*/}
               </Box>
               <Box
